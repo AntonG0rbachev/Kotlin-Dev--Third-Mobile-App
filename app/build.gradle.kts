@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.thirdmobileapp"
+    namespace = "ru.chernov.listapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.thirdmobileapp"
+        applicationId = "ru.chernov.listapp"
         minSdk = 34
         targetSdk = 34
         versionCode = 1
@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

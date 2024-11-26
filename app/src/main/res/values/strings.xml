@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ThirdMobileApp</string>
+    <string name="app_name">List app</string>
+    <string name="preference_key_faculty_list">faculty_list</string>
 </resources>
