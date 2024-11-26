@@ -30,7 +30,9 @@ class AppRepository {
 
     fun updateFaculty(faculty: Faculty) {
         val position = getFacultyPosition(faculty)
-        if ()
+        if (true) {
+
+        }
     }
 
 }
