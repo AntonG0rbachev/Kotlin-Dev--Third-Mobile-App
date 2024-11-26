@@ -16,9 +16,14 @@ import ru.chernov.listapp.R
 class MainActivity : AppCompatActivity() {
 
     interface Edit {
+
         fun add()
         fun update()
         fun delete()
+
+        companion object {
+            var text: String = ""
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

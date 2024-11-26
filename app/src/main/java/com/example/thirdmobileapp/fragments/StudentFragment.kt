@@ -6,10 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.thirdmobileapp.R
 import com.example.thirdmobileapp.data.Group
-import com.example.thirdmobileapp.databinding.FragmentStudentBinding
 import com.example.thirdmobileapp.view_models.StudentViewModel
+import ru.chernov.listapp.R
+import ru.chernov.listapp.databinding.FragmentStudentBinding
 
 class StudentFragment : Fragment() {
 

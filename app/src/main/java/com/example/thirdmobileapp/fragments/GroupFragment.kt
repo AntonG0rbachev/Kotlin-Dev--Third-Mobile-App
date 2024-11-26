@@ -14,10 +14,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.example.thirdmobileapp.MainActivity
-import com.example.thirdmobileapp.R
 import com.example.thirdmobileapp.data.Group
-import com.example.thirdmobileapp.databinding.FragmentGroupBinding
 import com.example.thirdmobileapp.view_models.GroupViewModel
+import ru.chernov.listapp.R
+import ru.chernov.listapp.databinding.FragmentGroupBinding
 
 class GroupFragment : Fragment(), MainActivity.Edit {
 
@@ -80,7 +80,7 @@ class GroupFragment : Fragment(), MainActivity.Edit {
 
         for(i in 0 until (groupList.size)){
             binding.tlGroups.addTab(binding.tlGroups.newTab().apply {
-                text = groupList.get(i).name
+                MainActivity.Edit.text = groupList[i].name
             })
         }
         val adapter =  GroupPageAdapter(requireActivity(), viewModel.groupList.value)
