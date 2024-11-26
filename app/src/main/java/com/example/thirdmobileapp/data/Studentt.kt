@@ -1,4 +1,4 @@
-package ru.chernov.listapp.data
+package com.example.thirdmobileapp.data
 
 import java.util.Date
 import java.util.UUID

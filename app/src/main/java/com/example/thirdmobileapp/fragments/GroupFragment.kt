@@ -1,4 +1,4 @@
-package ru.chernov.listapp.fragments
+package com.example.thirdmobileapp.fragments
 
 import android.app.AlertDialog
 import androidx.fragment.app.viewModels
@@ -13,24 +13,23 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import ru.chernov.listapp.MainActivity
-import ru.chernov.listapp.R
-import ru.chernov.listapp.data.Group
-import ru.chernov.listapp.data.ListOfGroup
-import ru.chernov.listapp.databinding.FragmentGroupBinding
-import ru.chernov.listapp.view_models.GroupViewModel
+import com.example.thirdmobileapp.MainActivity
+import com.example.thirdmobileapp.R
+import com.example.thirdmobileapp.data.Group
+import com.example.thirdmobileapp.databinding.FragmentGroupBinding
+import com.example.thirdmobileapp.view_models.GroupViewModel
 
 class GroupFragment : Fragment(), MainActivity.Edit {
 
     companion object {
         private var INSTANCE: GroupFragment?= null
 
-        fun getInstance(): GroupFragment{
-            if( INSTANCE==null)
+        fun getInstance(): GroupFragment {
+            if( INSTANCE ==null)
                 INSTANCE = GroupFragment()
-            return INSTANCE?: throw Exception("GroupFragment не создан")
+            return INSTANCE ?: throw Exception("GroupFragment не создан")
         }
-        fun newInstance(): GroupFragment{
+        fun newInstance(): GroupFragment {
             INSTANCE = GroupFragment()
             return INSTANCE!!
         }

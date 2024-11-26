@@ -1,8 +1,8 @@
-package ru.chernov.listapp
+package com.example.thirdmobileapp
 
 import android.app.Application
 import android.content.Context
-import ru.chernov.listapp.repository.AppRepository
+import com.example.thirdmobileapp.repository.AppRepository
 
 class ListApp4PM_1_2425: Application() {
 

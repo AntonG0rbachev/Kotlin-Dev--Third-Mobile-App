@@ -1,4 +1,4 @@
-package ru.chernov.listapp.fragments
+package com.example.thirdmobileapp.fragments
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
@@ -6,17 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import ru.chernov.listapp.R
-import ru.chernov.listapp.data.Group
-import ru.chernov.listapp.databinding.FragmentStudentBinding
-import ru.chernov.listapp.view_models.StudentViewModel
+import com.example.thirdmobileapp.R
+import com.example.thirdmobileapp.data.Group
+import com.example.thirdmobileapp.databinding.FragmentStudentBinding
+import com.example.thirdmobileapp.view_models.StudentViewModel
 
 class StudentFragment : Fragment() {
 
     companion object {
         private  lateinit var  group: Group
-        fun newInstance(group: Group): StudentFragment{
-            this.group = group
+        fun newInstance(group: Group): StudentFragment {
+            Companion.group = group
             return StudentFragment()
         }
     }

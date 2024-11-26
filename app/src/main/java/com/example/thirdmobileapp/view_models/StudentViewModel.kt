@@ -1,4 +1,4 @@
-package ru.chernov.listapp.view_models
+package com.example.thirdmobileapp.view_models
 
 import androidx.lifecycle.ViewModel
 

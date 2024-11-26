@@ -1,4 +1,4 @@
-package ru.chernov.listapp.data
+package com.example.thirdmobileapp.data
 
 object MyConsts{
     val TAG = "ru.chernov.list_temp.log"

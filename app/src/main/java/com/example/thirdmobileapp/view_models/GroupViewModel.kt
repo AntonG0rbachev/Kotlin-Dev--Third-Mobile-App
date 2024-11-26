@@ -1,11 +1,9 @@
-package ru.chernov.listapp.view_models
+package com.example.thirdmobileapp.view_models
 
-import android.icu.text.Transliterator.Position
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ru.chernov.listapp.data.Faculty
-import ru.chernov.listapp.data.Group
-import ru.chernov.listapp.repository.AppRepository
+import com.example.thirdmobileapp.data.Group
+import com.example.thirdmobileapp.repository.AppRepository
 
 class GroupViewModel : ViewModel() {
     var groupList: MutableLiveData<List<Group>> = MutableLiveData()

@@ -1,4 +1,4 @@
-package ru.chernov.listapp
+package com.example.thirdmobileapp
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,10 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import ru.chernov.listapp.data.NamesOfFragment
-import ru.chernov.listapp.fragments.FacultyFragment
-import ru.chernov.listapp.fragments.GroupFragment
-import ru.chernov.listapp.repository.AppRepository
+import com.example.thirdmobileapp.data.NamesOfFragment
+import com.example.thirdmobileapp.fragments.FacultyFragment
+import com.example.thirdmobileapp.fragments.GroupFragment
+import com.example.thirdmobileapp.repository.AppRepository
+import ru.chernov.listapp.R
 
 class MainActivity : AppCompatActivity() {
 

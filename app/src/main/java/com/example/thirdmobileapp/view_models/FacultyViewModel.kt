@@ -3,9 +3,9 @@ package com.example.thirdmobileapp.view_models
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
-import ru.chernov.listapp.data.Faculty
-import ru.chernov.listapp.data.ListOfFaculty
-import ru.chernov.listapp.repository.AppRepository
+import com.example.thirdmobileapp.data.Faculty
+import com.example.thirdmobileapp.data.ListOfFaculty
+import com.example.thirdmobileapp.repository.AppRepository
 
 class FacultyViewModel : ViewModel() {
     var facultyList: MutableLiveData<ListOfFaculty?> = MutableLiveData()

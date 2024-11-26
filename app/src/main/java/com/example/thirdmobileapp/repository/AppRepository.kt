@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import ru.chernov.listapp.ListApp4PM_1_2425
-import ru.chernov.listapp.R
+import com.example.thirdmobileapp.ListApp4PM_1_2425
 import com.example.thirdmobileapp.data.Faculty
 import com.example.thirdmobileapp.data.Group
 import com.example.thirdmobileapp.data.ListOfFaculty
 import com.example.thirdmobileapp.data.ListOfGroup
 import com.example.thirdmobileapp.data.ListOfStudent
 import com.example.thirdmobileapp.data.Student
+import ru.chernov.listapp.R
 import java.util.UUID
 
 

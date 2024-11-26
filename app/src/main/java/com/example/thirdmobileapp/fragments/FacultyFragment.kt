@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.thirdmobileapp.MainActivity
 import com.example.thirdmobileapp.R
-import ru.chernov.listapp.data.Faculty
-import ru.chernov.listapp.databinding.FragmentFacultyBinding
-import ru.chernov.listapp.view_models.FacultyViewModel
+import com.example.thirdmobileapp.data.Faculty
+import com.example.thirdmobileapp.databinding.FragmentFacultyBinding
+import com.example.thirdmobileapp.view_models.FacultyViewModel
 
 class FacultyFragment : Fragment(), MainActivity.Edit {
 
