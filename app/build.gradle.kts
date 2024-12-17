@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "ru.chernov.listapp"
+    namespace = "com.example.list_4pm2_2425"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "ru.chernov.listapp"
-        minSdk = 34
+        applicationId = "com.example.list_4pm2_2425"
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -17,8 +17,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        viewBinding = true
+    buildFeatures{
+        viewBinding=true
     }
 
     buildTypes {
@@ -50,8 +50,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.preference.ktx)
     implementation(libs.gson)
+    implementation(libs.androidx.preference.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

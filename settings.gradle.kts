@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "List app"
+rootProject.name = "list_4pm2_2425"
 include(":app")
  
