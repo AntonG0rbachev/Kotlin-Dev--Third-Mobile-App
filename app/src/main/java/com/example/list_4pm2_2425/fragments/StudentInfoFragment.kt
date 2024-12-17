@@ -47,6 +47,7 @@ class StudentInfoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val sexArray = resources.getStringArray(R)
+        binding.spinner2.onItemSelectedListener = object :
         return inflater.inflate(R.layout.fragment_student_info, container, false)
     }
 }
