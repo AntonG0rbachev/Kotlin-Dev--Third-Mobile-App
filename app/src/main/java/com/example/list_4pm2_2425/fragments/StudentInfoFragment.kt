@@ -1,15 +1,20 @@
 package com.example.list_4pm2_2425.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.example.list_4pm2_2425.R
 import com.example.list_4pm2_2425.data.Student
 import com.example.list_4pm2_2425.databinding.FragmentStudentInfoBinding
+import com.example.list_4pm2_2425.repository.AppRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
 
 private const val ARG_PARAM1 = "student_param"
 
@@ -42,12 +47,57 @@ class StudentInfoFragment : Fragment() {
             }
     }
 
+    @SuppressLint("SimpleDataFormat")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val sexArray = resources.getStringArray(R)
-        binding.spinner2.onItemSelectedListener = object :
-        return inflater.inflate(R.layout.fragment_student_info, container, false)
+        _binding = FragmentStudentInfoBinding.inflate(inflater, container, false)
+
+        val sexArray = resources.getStringArray(R.array.SEX)
+        val adapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item, sexArray
+        )
+        binding.spSex.adapter = adapter
+        binding.spSex.setSelection(student.sex)
+        binding.spSex.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                   student.sex = position
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
+            }
+        binding.cvBirthDate.setOnDateChangeListener {
+            view, year, month, dayOfMonth ->
+                student.birthDate.time =
+                    SimpleDateFormat("yyyy.MM.dd")
+                        .parse("$year.$month.$dayOfMonth")?.time ?: student.birthDate.time
+        }
+        binding.etFirstname.setText(student.firstName)
+        binding.etLastname.setText(student.lastName)
+        binding.etMiddlename.setText(student.middleName)
+        binding.etPhone.setText(student.phone)
+        binding.cvBirthDate.date = student.birthDate.time
+        binding.btnCancel.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+        binding.btnSave.setOnClickListener {
+            student.lastName = binding.etLastname.text.toString()
+            student.firstName = binding.etFirstname.text.toString()
+            student.middleName = binding.etMiddlename.text.toString()
+            student.phone = binding.etPhone.text.toString()
+            AppRepository.getInstance().updateStudent(student)
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+        return binding.root
     }
 }
