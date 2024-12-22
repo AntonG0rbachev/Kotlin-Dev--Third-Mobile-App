@@ -2,18 +2,24 @@ package com.example.list_4pm2_2425
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.list_4pm2_2425.data.NamesOfFragment
+import com.example.list_4pm2_2425.data.Student
 import com.example.list_4pm2_2425.fragments.FacultyFragment
 import com.example.list_4pm2_2425.fragments.GroupFragment
+import com.example.list_4pm2_2425.fragments.StudentInfoFragment
+import com.example.list_4pm2_2425.fragments.StudentsFragment
 import com.example.list_4pm2_2425.interfaces.ActivityCallbacks
 import com.example.list_4pm2_2425.repository.AppRepository
+import com.example.list_4pm2_2425.view_models.GroupViewModel
 
 class MainActivity : AppCompatActivity(), ActivityCallbacks {
 
@@ -45,7 +51,9 @@ class MainActivity : AppCompatActivity(), ActivityCallbacks {
                     NamesOfFragment.GROUP ->{
                         activeFragment=NamesOfFragment.FACULTY
                     }
-                    else -> {}
+                    else -> {
+                        activeFragment=NamesOfFragment.GROUP
+                    }
                 }
                 showFragment(activeFragment)
             }
@@ -62,6 +70,8 @@ class MainActivity : AppCompatActivity(), ActivityCallbacks {
     private var _miAppendGroup: MenuItem? = null
     private var _miUpdateGroup: MenuItem? = null
     private var _miDeleteGroup: MenuItem? = null
+
+    private val groupViewModel: GroupViewModel by viewModels()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -115,7 +125,6 @@ class MainActivity : AppCompatActivity(), ActivityCallbacks {
     }
 
     override fun onDestroy() {
-        AppRepository.getInstance().saveData()
         super.onDestroy()
     }
 
@@ -123,7 +132,7 @@ class MainActivity : AppCompatActivity(), ActivityCallbacks {
         title = _title
     }
 
-    override fun showFragment(fragmentType: NamesOfFragment) {
+    override fun showFragment(fragmentType: NamesOfFragment, student: Student?) {
         when (fragmentType){
             NamesOfFragment.FACULTY ->{
                 supportFragmentManager
@@ -140,7 +149,16 @@ class MainActivity : AppCompatActivity(), ActivityCallbacks {
                     .commit()
             }
 
-            NamesOfFragment.STUDENT -> TODO()
+            NamesOfFragment.STUDENT -> {
+                if(groupViewModel.group != null && student != null){
+                    Log.e("GROUP SECOND", "STUEDENT ${student.groupID}")
+                    supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fcvMain, StudentInfoFragment.newInstance(student))
+                        .addToBackStack(null)
+                        .commit()
+                }
+            }
         }
         activeFragment=fragmentType
         updateMenu(fragmentType)

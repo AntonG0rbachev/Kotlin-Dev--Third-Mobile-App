@@ -22,6 +22,7 @@ import com.example.list_4pm2_2425.data.Faculty
 import com.example.list_4pm2_2425.data.NamesOfFragment
 import com.example.list_4pm2_2425.databinding.FragmentFacultyBinding
 import com.example.list_4pm2_2425.interfaces.ActivityCallbacks
+import com.example.list_4pm2_2425.repository.AppRepository
 
 class FacultyFragment : Fragment(), MainActivity.Edit {
 
@@ -58,7 +59,7 @@ class FacultyFragment : Fragment(), MainActivity.Edit {
         viewModel = ViewModelProvider(this).get(FacultyViewModel::class.java)
         activityCallback?.newTitle("Список факультетов")
         viewModel.facultyList.observe(viewLifecycleOwner){
-            binding.rvFaculty.adapter=FacultyAdapter(it?.items?:emptyList())
+            binding.rvFaculty.adapter=FacultyAdapter(it?:emptyList())
         }
     }
 

@@ -1,10 +1,20 @@
 package com.example.list_4pm2_2425.repository
 
 
+import android.app.Activity
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.preference.PreferenceManager
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.example.list_4pm2_2425.ListApp4PM_1_2425
 import com.example.list_4pm2_2425.R
+import com.example.list_4pm2_2425.UniversityDatabase
+import com.example.list_4pm2_2425.daos.FacultyDao
+import com.example.list_4pm2_2425.daos.GroupDao
+import com.example.list_4pm2_2425.daos.StudentDao
 import com.example.list_4pm2_2425.data.Faculty
 import com.example.list_4pm2_2425.data.Group
 import com.example.list_4pm2_2425.data.ListOfFaculty
@@ -15,133 +25,89 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.UUID
 
-class AppRepository {
+class AppRepository(
+    private val studentDao: StudentDao,
+    private val facultyDao: FacultyDao,
+    private val groupDao: GroupDao,
+) {
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
     companion object{
         private var INSTANCE: AppRepository?=null
 
         fun getInstance(): AppRepository{
+            Log.e("SHIT", "ENTERED REPOSITORY")
             if(INSTANCE == null){
-                INSTANCE = AppRepository()
+                val db = UniversityDatabase.getInstance(ListApp4PM_1_2425.context)
+                val facultyDao = db.facultyDao()
+                val groupDao = db.groupDao()
+                val studentDao = db.studentDao()
+                INSTANCE = AppRepository(studentDao, facultyDao, groupDao)
             }
             return INSTANCE ?:
             throw IllegalStateException("Репозиторий не инициализирован")
         }
     }
 
-    var listOfFaculty: MutableLiveData<ListOfFaculty?> = MutableLiveData()
+    var facultyList: LiveData<List<Faculty>> = facultyDao.getFaculties()
     var faculty: MutableLiveData<Faculty> = MutableLiveData()
-    var listOfGroup: MutableLiveData<ListOfGroup> = MutableLiveData()
+    var groupList: LiveData<List<Group>> = groupDao.getGroups()
     var group: MutableLiveData<Group> = MutableLiveData()
-    var listOfStudent: MutableLiveData<ListOfStudent> = MutableLiveData()
+    var studentList: LiveData<List<Student>> = studentDao.getStudents()
     var student: MutableLiveData<Student> = MutableLiveData()
 
     fun addFaculty(faculty: Faculty){
-        val listTmp = (listOfFaculty.value ?: ListOfFaculty()).apply {
-            items.add(faculty)
+        Log.e("ADD", "ADD FACULTY ${faculty.name}")
+        coroutineScope.launch(Dispatchers.IO) {
+            facultyDao.addFaculty(faculty)
         }
-        listOfFaculty.postValue(listTmp)
         setCurrentFaculty(faculty)
     }
 
     fun updateFaculty(faculty: Faculty){
-        val position = getFacultyPosition(faculty)
-        if (position < 0) addFaculty(faculty)
-        else{
-            val listTmp = listOfFaculty.value!!
-            listTmp.items[position]=faculty
-            listOfFaculty.postValue(listTmp)
+        coroutineScope.launch(Dispatchers.IO) {
+            facultyDao.updateFaculty(faculty)
         }
     }
 
     fun deleteFaculty(faculty: Faculty){
-        val listTmp = listOfFaculty.value!!
-        if(listTmp.items.remove(faculty)){
-            listOfFaculty.postValue(listTmp)
+        coroutineScope.launch(Dispatchers.IO) {
+            facultyDao.deleteFaculty(faculty.id)
         }
         setCurrentFaculty(0)
     }
 
-    fun getFacultyPosition(faculty: Faculty): Int = listOfFaculty.value?.items?.indexOfFirst{
-        it.id==faculty.id } ?:-1
+    fun getFacultyPosition(faculty: Faculty): Int = facultyList.value
+        ?.indexOfFirst { it.id == faculty.id } ?: -1
 
     fun getFaculltyPosition()=getFacultyPosition(faculty.value?: Faculty())
 
     fun setCurrentFaculty(position: Int){
-        if(listOfFaculty.value==null || position<0 ||
-            (listOfFaculty.value?.items?.size!!<=position))
+        if(facultyList.value==null || position<0 ||
+            (facultyList.value?.size!!<=position))
             return
-        setCurrentFaculty(listOfFaculty.value?.items!![position])
+        setCurrentFaculty(facultyList.value!![position])
     }
 
     fun setCurrentFaculty(_faculty: Faculty){
         faculty.postValue(_faculty)
     }
 
-    fun saveData(){
-        val context = ListApp4PM_1_2425.context
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        sharedPreferences.edit().apply{
-            val gson = Gson()
-            val lst=listOfFaculty.value?.items ?: listOf<Faculty>()
-            val jsonString = gson.toJson(lst)
-            putString(context.getString(R.string.preference_key_faculty_list), jsonString)
-            putString(context.getString(R.string.preference_key_group_list),
-                gson.toJson(listOfStudent.value?.items ?: listOf<Group>()))
-            putString(context.getString(R.string.preference_key_student_list),
-                gson.toJson(listOfStudent.value?.items ?: listOf<Student>()))
-            apply()
-        }
-    }
-
-    fun loadData(){
-        val context = ListApp4PM_1_2425.context
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        sharedPreferences.apply{
-            val jsonString = getString(context.getString(R.string.preference_key_faculty_list), null)
-            if (jsonString!=null) {
-                val listType = object: TypeToken<List<Faculty>>() {}.type
-                val tempList = Gson().fromJson<List<Faculty>>(jsonString, listType)
-                val temp = ListOfFaculty()
-                temp.items = tempList.toMutableList()
-                listOfFaculty.postValue(temp)
-            }
-            val jsonStringG = getString(context.getString(R.string.preference_key_group_list), null)
-            if (jsonStringG!=null) {
-                val listTypeG = object: TypeToken<List<Group>>() {}.type
-                val tempListG = Gson().fromJson<List<Group>>(jsonStringG, listTypeG)
-                val tempG = ListOfGroup()
-                tempG.items = tempListG.toMutableList()
-                listOfGroup.postValue(tempG)
-            }
-            val jsonStringS = getString(context.getString(R.string.preference_key_student_list), null)
-            if (jsonStringS!=null) {
-                val listTypeS = object: TypeToken<List<Student>>() {}.type
-                val tempListS = Gson().fromJson<List<Student>>(jsonStringS, listTypeS)
-                val tempS = ListOfStudent()
-                tempS.items = tempListS.toMutableList()
-                listOfStudent.postValue(tempS)
-            }
-        }
-    }
-
     fun addGroup(group: Group){
-        val listTmp = (listOfGroup.value ?: ListOfGroup()).apply{
-            items.add(group)
+        coroutineScope.launch(Dispatchers.IO) {
+            groupDao.addGroup(group)
         }
-        listOfGroup.postValue(listTmp)
         setCurrentGroup(group)
     }
 
-    fun getGroupPosition(group: Group): Int = listOfGroup.value?.items?.indexOfFirst {
-        it.id==group.id} ?:-1
+    fun getGroupPosition(group: Group): Int = groupList.value?.indexOfFirst { it.id==group.id} ?:-1
 
     fun getGroupPosition()=getGroupPosition(group.value?: Group())
 
     fun setCurrentGroup(position: Int){
-        if(listOfGroup.value==null || position<0 ||
-            (listOfGroup.value?.items?.size!!<=position))
+        if(groupList.value==null || position<0 ||
+            (groupList.value?.size!!<=position))
             return
-        setCurrentGroup(listOfGroup.value?.items!![position])
+        setCurrentGroup(groupList.value!![position])
     }
 
     fun setCurrentGroup(_group: Group){
@@ -149,72 +115,78 @@ class AppRepository {
     }
 
     fun updateGroup(group: Group){
-        val position = getGroupPosition(group)
-        if (position<0) addGroup(group)
-        else {
-            val listTmp = listOfGroup.value!!
-            listTmp.items[position]=group
-            listOfGroup.postValue(listTmp)
+        coroutineScope.launch(Dispatchers.IO) {
+            groupDao.updateGroup(group)
         }
     }
 
     fun deleteGroup(group: Group){
-        val listTmp = listOfGroup.value ?: ListOfGroup()
-        if (listTmp.items.remove(group))
-            listOfGroup.postValue(listTmp)
+        coroutineScope.launch(Dispatchers.IO) {
+            groupDao.deleteGroup(group.id)
+        }
         setCurrentGroup(0)
     }
 
     val facultyGroups
-        get()=listOfGroup.value?.items?.filter{it.facultyID == (faculty.value?.id ?: 0)}?.sortedBy { it.name } ?: listOf()
+        get()=groupList.value
+            ?.filter{it.facultyID == (faculty.value?.id ?: 0)}
+            ?.sortedBy { it.name } ?: listOf()
 
-    fun getFacultyGroups(facultyID: UUID) =
-        (listOfGroup.value?.items?.filter{ it.facultyID == facultyID }?.sortedBy { it.name } ?: listOf())
+    fun getFacultyGroups(facultyID: Long) =
+        groupList.value
+            ?.filter{ it.facultyID == facultyID }
+            ?.sortedBy { it.name } ?: listOf()
 
     fun addStudent(student: Student){
-        val listTmp = (listOfStudent.value ?: ListOfStudent()).apply {
-            items.add(student)
+        coroutineScope.launch(Dispatchers.IO) {
+            studentDao.addStudent(student)
         }
-        listOfStudent.postValue(listTmp)
         setCurrentStudent(student)
     }
 
-    fun getStudentPosition(student: Student): Int = listOfStudent.value?.items?.indexOfFirst {
+    fun getStudentPosition(student: Student): Int = studentList.value?.indexOfFirst {
         it.id==student.id} ?:-1
 
     fun getStudentPosition()=getStudentPosition(student.value?: Student())
 
     fun setCurrentStudent(position: Int){
-        if(listOfStudent.value==null || position<0 ||
-            (listOfStudent.value?.items?.size!!<=position))
+        if(studentList.value==null || position<0 ||
+            (studentList.value?.size!!<=position))
             return
-        setCurrentStudent(listOfStudent.value?.items!![position])
+        setCurrentStudent(studentList.value!![position])
     }
 
     fun setCurrentStudent(_student: Student){
         student.postValue(_student)
     }
 
+    fun getStudent(id: Long): Student{
+        return studentDao.getStdudent(id)
+    }
+
     fun updateStudent(student: Student){
-        val position = getStudentPosition(student)
-        if (position<0) addStudent(student)
-        else {
-            val listTmp = listOfStudent.value!!
-            listTmp.items[position]=student
-            listOfStudent.postValue(listTmp)
+        coroutineScope.launch(Dispatchers.IO) {
+            if(studentDao.checkIfExist(student.id))
+                studentDao.updateStudent(student)
+            else
+                studentDao.addStudent(student)
         }
     }
 
     fun deleteStudent(student: Student){
-        val listTmp = listOfStudent.value ?: ListOfStudent()
-        if (listTmp.items.remove(student))
-            listOfStudent.postValue(listTmp)
+        coroutineScope.launch(Dispatchers.IO) {
+            studentDao.deleteStudent(student.id)
+        }
         setCurrentStudent(0)
     }
 
     val groupStudents
-        get()=listOfStudent.value?.items?.filter{it.groupID == (group.value?.id ?: 0)}?.sortedBy { it.shortName } ?: listOf()
+        get()=studentList.value
+            ?.filter{it.groupID == (group.value?.id ?: 0)}
+            ?.sortedBy { it.shortName } ?: listOf()
 
-    fun getGroupStudents(groupID: UUID) =
-        (listOfStudent.value?.items?.filter{ it.groupID == groupID }?.sortedBy { it.shortName } ?: listOf())
+    fun getGroupStudents(groupID: Long) =
+        (studentList.value
+            ?.filter{ it.groupID == groupID }
+            ?.sortedBy { it.shortName } ?: listOf())
 }

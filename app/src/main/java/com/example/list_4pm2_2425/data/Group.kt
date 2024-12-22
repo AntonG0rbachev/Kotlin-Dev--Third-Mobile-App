@@ -1,9 +1,16 @@
 package com.example.list_4pm2_2425.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.UUID
 
+@Entity(tableName = "groups")
 data class Group(
-    val id: UUID = UUID.randomUUID(),
-    var name: String = "",
-    var facultyID: UUID?=null
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "group_id")
+    var id: Long = 0,
+    var name: String? = null,
+    @ColumnInfo(name = "faculty_id")
+    var facultyID: Long? = null
 )

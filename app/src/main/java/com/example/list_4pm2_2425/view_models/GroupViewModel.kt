@@ -1,5 +1,6 @@
 package com.example.list_4pm2_2425.view_models
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.list_4pm2_2425.data.Group
@@ -13,7 +14,7 @@ class GroupViewModel : ViewModel() {
         get()=_group
 
     init {
-        AppRepository.getInstance().listOfGroup.observeForever {
+        AppRepository.getInstance().groupList.observeForever {
             groupList.postValue(AppRepository.getInstance().facultyGroups)
         }
 
@@ -35,7 +36,7 @@ class GroupViewModel : ViewModel() {
         val group=Group()
         group.name=groupName
         group.facultyID=faculty?.id
-        AppRepository.getInstance().updateGroup(group)
+        AppRepository.getInstance().addGroup(group)
     }
 
     fun updateGroup(groupName: String){
