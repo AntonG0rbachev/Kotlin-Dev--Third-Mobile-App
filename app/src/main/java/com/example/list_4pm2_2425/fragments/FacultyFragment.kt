@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,17 +11,17 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.list_4pm2_2425.MainActivity
 import com.example.list_4pm2_2425.R
-import com.example.list_4pm2_2425.view_models.FacultyViewModel
 import com.example.list_4pm2_2425.data.Faculty
 import com.example.list_4pm2_2425.data.NamesOfFragment
 import com.example.list_4pm2_2425.databinding.FragmentFacultyBinding
 import com.example.list_4pm2_2425.interfaces.ActivityCallbacks
-import com.example.list_4pm2_2425.repository.AppRepository
+import com.example.list_4pm2_2425.view_models.FacultyViewModel
 
 class FacultyFragment : Fragment(), MainActivity.Edit {
 

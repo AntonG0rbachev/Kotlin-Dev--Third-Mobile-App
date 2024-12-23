@@ -1,6 +1,5 @@
 package com.example.list_4pm2_2425
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -16,9 +15,7 @@ import com.example.list_4pm2_2425.data.Student
 import com.example.list_4pm2_2425.fragments.FacultyFragment
 import com.example.list_4pm2_2425.fragments.GroupFragment
 import com.example.list_4pm2_2425.fragments.StudentInfoFragment
-import com.example.list_4pm2_2425.fragments.StudentsFragment
 import com.example.list_4pm2_2425.interfaces.ActivityCallbacks
-import com.example.list_4pm2_2425.repository.AppRepository
 import com.example.list_4pm2_2425.view_models.GroupViewModel
 
 class MainActivity : AppCompatActivity(), ActivityCallbacks {

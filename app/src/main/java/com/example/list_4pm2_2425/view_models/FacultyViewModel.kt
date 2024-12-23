@@ -1,11 +1,9 @@
 package com.example.list_4pm2_2425.view_models
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import com.example.list_4pm2_2425.data.Faculty
-import com.example.list_4pm2_2425.data.ListOfFaculty
 import com.example.list_4pm2_2425.repository.AppRepository
 
 class FacultyViewModel : ViewModel() {

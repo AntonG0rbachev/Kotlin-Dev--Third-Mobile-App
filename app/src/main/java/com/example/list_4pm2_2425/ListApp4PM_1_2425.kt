@@ -3,7 +3,6 @@ package com.example.list_4pm2_2425
 import android.app.Application
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.ViewModelProvider.NewInstanceFactory.Companion.instance
 import com.example.list_4pm2_2425.repository.AppRepository
 
 class ListApp4PM_1_2425: Application() {
