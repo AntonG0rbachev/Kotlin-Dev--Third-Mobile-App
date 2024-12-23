@@ -1,29 +1,20 @@
 package com.example.list_4pm2_2425.repository
 
 
-import android.app.Activity
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.preference.PreferenceManager
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.list_4pm2_2425.ListApp4PM_1_2425
-import com.example.list_4pm2_2425.R
 import com.example.list_4pm2_2425.UniversityDatabase
 import com.example.list_4pm2_2425.daos.FacultyDao
 import com.example.list_4pm2_2425.daos.GroupDao
 import com.example.list_4pm2_2425.daos.StudentDao
 import com.example.list_4pm2_2425.data.Faculty
 import com.example.list_4pm2_2425.data.Group
-import com.example.list_4pm2_2425.data.ListOfFaculty
-import com.example.list_4pm2_2425.data.ListOfGroup
-import com.example.list_4pm2_2425.data.ListOfStudent
 import com.example.list_4pm2_2425.data.Student
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import java.util.UUID
 
 class AppRepository(
     private val studentDao: StudentDao,
@@ -35,7 +26,7 @@ class AppRepository(
         private var INSTANCE: AppRepository?=null
 
         fun getInstance(): AppRepository{
-            Log.e("SHIT", "ENTERED REPOSITORY")
+            Log.e("WARNING", "ENTERED REPOSITORY")
             if(INSTANCE == null){
                 val db = UniversityDatabase.getInstance(ListApp4PM_1_2425.context)
                 val facultyDao = db.facultyDao()
@@ -76,12 +67,12 @@ class AppRepository(
         setCurrentFaculty(0)
     }
 
-    fun getFacultyPosition(faculty: Faculty): Int = facultyList.value
+    private fun getFacultyPosition(faculty: Faculty): Int = facultyList.value
         ?.indexOfFirst { it.id == faculty.id } ?: -1
 
     fun getFaculltyPosition()=getFacultyPosition(faculty.value?: Faculty())
 
-    fun setCurrentFaculty(position: Int){
+    private fun setCurrentFaculty(position: Int){
         if(facultyList.value==null || position<0 ||
             (facultyList.value?.size!!<=position))
             return
@@ -99,11 +90,11 @@ class AppRepository(
         setCurrentGroup(group)
     }
 
-    fun getGroupPosition(group: Group): Int = groupList.value?.indexOfFirst { it.id==group.id} ?:-1
+    private fun getGroupPosition(group: Group): Int = groupList.value?.indexOfFirst { it.id==group.id} ?:-1
 
     fun getGroupPosition()=getGroupPosition(group.value?: Group())
 
-    fun setCurrentGroup(position: Int){
+    private fun setCurrentGroup(position: Int){
         if(groupList.value==null || position<0 ||
             (groupList.value?.size!!<=position))
             return
@@ -144,12 +135,12 @@ class AppRepository(
         setCurrentStudent(student)
     }
 
-    fun getStudentPosition(student: Student): Int = studentList.value?.indexOfFirst {
+    private fun getStudentPosition(student: Student): Int = studentList.value?.indexOfFirst {
         it.id==student.id} ?:-1
 
     fun getStudentPosition()=getStudentPosition(student.value?: Student())
 
-    fun setCurrentStudent(position: Int){
+    private fun setCurrentStudent(position: Int){
         if(studentList.value==null || position<0 ||
             (studentList.value?.size!!<=position))
             return
@@ -161,7 +152,7 @@ class AppRepository(
     }
 
     fun getStudent(id: Long): Student{
-        return studentDao.getStdudent(id)
+        return studentDao.getStudent(id)
     }
 
     fun updateStudent(student: Student){
