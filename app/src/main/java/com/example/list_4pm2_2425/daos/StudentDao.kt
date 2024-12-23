@@ -1,12 +1,10 @@
 package com.example.list_4pm2_2425.daos
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.list_4pm2_2425.data.ListOfStudent
 import com.example.list_4pm2_2425.data.Student
 
 @Dao
@@ -15,7 +13,7 @@ interface StudentDao {
     fun getStudents(): LiveData<List<Student>>
 
     @Query("SELECT * FROM students WHERE student_id = :id")
-    fun getStdudent(id : Long) : Student
+    fun getStudent(id : Long) : Student
 
     @Insert
     fun addStudent(student: Student)
