@@ -70,7 +70,7 @@ class AppRepository(
     private fun getFacultyPosition(faculty: Faculty): Int = facultyList.value
         ?.indexOfFirst { it.id == faculty.id } ?: -1
 
-    fun getFaculltyPosition()=getFacultyPosition(faculty.value?: Faculty())
+    fun getFacultyPosition()= getFacultyPosition(faculty.value?: Faculty())
 
     private fun setCurrentFaculty(position: Int){
         if(facultyList.value==null || position<0 ||
