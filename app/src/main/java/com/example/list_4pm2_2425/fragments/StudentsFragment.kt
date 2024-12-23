@@ -71,7 +71,7 @@ class StudentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(StudentsViewModel::class.java)
-        viewModel.set_Group(group)
+        viewModel.setGroup(group)
         viewModel.studentList.observe(viewLifecycleOwner){
             binding.rvStudents.adapter=StudentAdapter(it)
         }
