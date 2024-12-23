@@ -14,7 +14,7 @@ class StudentsViewModel : ViewModel() {
 
     lateinit var group : Group
 
-    fun setGroup(group: Group){
+    fun set_Group(group: Group){
         this.group = group
         AppRepository.getInstance().studentList.observeForever{
             studentList.postValue(AppRepository.getInstance().getGroupStudents(group.id))
