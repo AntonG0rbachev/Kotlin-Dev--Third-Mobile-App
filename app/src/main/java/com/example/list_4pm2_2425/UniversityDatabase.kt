@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.list_4pm2_2425.converters.DateConverter
-import com.example.list_4pm2_2425.daos.FacultyDao
-import com.example.list_4pm2_2425.daos.GroupDao
-import com.example.list_4pm2_2425.daos.StudentDao
+import com.example.list_4pm2_2425.daos.FacultyDAO
+import com.example.list_4pm2_2425.daos.GroupDAO
+import com.example.list_4pm2_2425.daos.StudentDAO
 import com.example.list_4pm2_2425.data.Faculty
 import com.example.list_4pm2_2425.data.Group
 import com.example.list_4pm2_2425.data.Student
@@ -16,9 +16,9 @@ import com.example.list_4pm2_2425.data.Student
 @Database(entities = [(Student::class), (Group::class), (Faculty::class)], version = 1)
 @TypeConverters(DateConverter::class)
 abstract class UniversityDatabase : RoomDatabase() {
-    abstract fun studentDao(): StudentDao
-    abstract fun facultyDao(): FacultyDao
-    abstract fun groupDao(): GroupDao
+    abstract fun studentDao(): StudentDAO
+    abstract fun facultyDao(): FacultyDAO
+    abstract fun groupDao(): GroupDAO
 
     companion object {
         private var INSTANCE: UniversityDatabase? = null
@@ -30,7 +30,7 @@ abstract class UniversityDatabase : RoomDatabase() {
                     instance = Room.databaseBuilder(
                         context.applicationContext,
                         UniversityDatabase::class.java,
-                        "usersdb"
+                        "app_db"
                     )
                         .fallbackToDestructiveMigration()
                         .allowMainThreadQueries()

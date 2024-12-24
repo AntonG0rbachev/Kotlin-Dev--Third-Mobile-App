@@ -8,7 +8,7 @@ import androidx.room.Update
 import com.example.list_4pm2_2425.data.Group
 
 @Dao
-interface GroupDao {
+interface GroupDAO {
     @Query("SELECT * FROM groups")
     fun getGroups(): LiveData<List<Group>>
 

@@ -8,7 +8,7 @@ import androidx.room.Update
 import com.example.list_4pm2_2425.data.Student
 
 @Dao
-interface StudentDao {
+interface StudentDAO {
     @Query("SELECT * FROM students")
     fun getStudents(): LiveData<List<Student>>
 

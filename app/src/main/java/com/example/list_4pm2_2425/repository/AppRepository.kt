@@ -9,17 +9,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.list_4pm2_2425.ListApp4PM_1_2425
 import com.example.list_4pm2_2425.UniversityDatabase
-import com.example.list_4pm2_2425.daos.FacultyDao
-import com.example.list_4pm2_2425.daos.GroupDao
-import com.example.list_4pm2_2425.daos.StudentDao
+import com.example.list_4pm2_2425.daos.FacultyDAO
+import com.example.list_4pm2_2425.daos.GroupDAO
+import com.example.list_4pm2_2425.daos.StudentDAO
 import com.example.list_4pm2_2425.data.Faculty
 import com.example.list_4pm2_2425.data.Group
 import com.example.list_4pm2_2425.data.Student
 
 class AppRepository(
-    private val studentDao: StudentDao,
-    private val facultyDao: FacultyDao,
-    private val groupDao: GroupDao,
+    private val studentDao: StudentDAO,
+    private val facultyDao: FacultyDAO,
+    private val groupDao: GroupDAO,
 ) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     companion object{
