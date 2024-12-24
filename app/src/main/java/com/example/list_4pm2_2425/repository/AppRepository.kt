@@ -17,9 +17,9 @@ import com.example.list_4pm2_2425.data.Group
 import com.example.list_4pm2_2425.data.Student
 
 class AppRepository(
-    private val studentDao: StudentDAO,
-    private val facultyDao: FacultyDAO,
-    private val groupDao: GroupDAO,
+    private val studentDAO: StudentDAO,
+    private val facultyDAO: FacultyDAO,
+    private val groupDAO: GroupDAO,
 ) {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
     companion object{
@@ -29,40 +29,40 @@ class AppRepository(
             Log.e("WARNING", "ENTERED REPOSITORY")
             if(INSTANCE == null){
                 val db = UniversityDatabase.getInstance(ListApp4PM_1_2425.context)
-                val facultyDao = db.facultyDao()
-                val groupDao = db.groupDao()
-                val studentDao = db.studentDao()
-                INSTANCE = AppRepository(studentDao, facultyDao, groupDao)
+                val facultyDAO = db.facultyDAO()
+                val groupDAO = db.groupDAO()
+                val studentDAO = db.studentDAO()
+                INSTANCE = AppRepository(studentDAO, facultyDAO, groupDAO)
             }
             return INSTANCE ?:
             throw IllegalStateException("Репозиторий не инициализирован")
         }
     }
 
-    var facultyList: LiveData<List<Faculty>> = facultyDao.getFaculties()
+    var facultyList: LiveData<List<Faculty>> = facultyDAO.getFaculties()
     var faculty: MutableLiveData<Faculty> = MutableLiveData()
-    var groupList: LiveData<List<Group>> = groupDao.getGroups()
+    var groupList: LiveData<List<Group>> = groupDAO.getGroups()
     var group: MutableLiveData<Group> = MutableLiveData()
-    var studentList: LiveData<List<Student>> = studentDao.getStudents()
+    var studentList: LiveData<List<Student>> = studentDAO.getStudents()
     var student: MutableLiveData<Student> = MutableLiveData()
 
     fun addFaculty(faculty: Faculty){
         Log.e("ADD", "ADD FACULTY ${faculty.name}")
         coroutineScope.launch(Dispatchers.IO) {
-            facultyDao.addFaculty(faculty)
+            facultyDAO.addFaculty(faculty)
         }
         setCurrentFaculty(faculty)
     }
 
     fun updateFaculty(faculty: Faculty){
         coroutineScope.launch(Dispatchers.IO) {
-            facultyDao.updateFaculty(faculty)
+            facultyDAO.updateFaculty(faculty)
         }
     }
 
     fun deleteFaculty(faculty: Faculty){
         coroutineScope.launch(Dispatchers.IO) {
-            facultyDao.deleteFaculty(faculty.id)
+            facultyDAO.deleteFaculty(faculty.id)
         }
         setCurrentFaculty(0)
     }
@@ -85,7 +85,7 @@ class AppRepository(
 
     fun addGroup(group: Group){
         coroutineScope.launch(Dispatchers.IO) {
-            groupDao.addGroup(group)
+            groupDAO.addGroup(group)
         }
         setCurrentGroup(group)
     }
@@ -107,13 +107,13 @@ class AppRepository(
 
     fun updateGroup(group: Group){
         coroutineScope.launch(Dispatchers.IO) {
-            groupDao.updateGroup(group)
+            groupDAO.updateGroup(group)
         }
     }
 
     fun deleteGroup(group: Group){
         coroutineScope.launch(Dispatchers.IO) {
-            groupDao.deleteGroup(group.id)
+            groupDAO.deleteGroup(group.id)
         }
         setCurrentGroup(0)
     }
@@ -130,7 +130,7 @@ class AppRepository(
 
     fun addStudent(student: Student){
         coroutineScope.launch(Dispatchers.IO) {
-            studentDao.addStudent(student)
+            studentDAO.addStudent(student)
         }
         setCurrentStudent(student)
     }
@@ -152,21 +152,21 @@ class AppRepository(
     }
 
     fun getStudent(id: Long): Student{
-        return studentDao.getStudent(id)
+        return studentDAO.getStudent(id)
     }
 
     fun updateStudent(student: Student){
         coroutineScope.launch(Dispatchers.IO) {
-            if(studentDao.checkIfExist(student.id))
-                studentDao.updateStudent(student)
+            if(studentDAO.checkIfExist(student.id))
+                studentDAO.updateStudent(student)
             else
-                studentDao.addStudent(student)
+                studentDAO.addStudent(student)
         }
     }
 
     fun deleteStudent(student: Student){
         coroutineScope.launch(Dispatchers.IO) {
-            studentDao.deleteStudent(student.id)
+            studentDAO.deleteStudent(student.id)
         }
         setCurrentStudent(0)
     }

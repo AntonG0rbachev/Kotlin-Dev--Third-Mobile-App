@@ -16,9 +16,9 @@ import com.example.list_4pm2_2425.data.Student
 @Database(entities = [(Student::class), (Group::class), (Faculty::class)], version = 1)
 @TypeConverters(DateConverter::class)
 abstract class UniversityDatabase : RoomDatabase() {
-    abstract fun studentDao(): StudentDAO
-    abstract fun facultyDao(): FacultyDAO
-    abstract fun groupDao(): GroupDAO
+    abstract fun studentDAO(): StudentDAO
+    abstract fun facultyDAO(): FacultyDAO
+    abstract fun groupDAO(): GroupDAO
 
     companion object {
         private var INSTANCE: UniversityDatabase? = null
