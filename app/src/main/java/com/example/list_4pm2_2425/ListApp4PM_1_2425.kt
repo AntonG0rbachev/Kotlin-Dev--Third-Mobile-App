@@ -9,7 +9,7 @@ class ListApp4PM_1_2425: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.e("ERROR", "I HATE THIS FUCKING IDE SO MUCH")
+        Log.e("ERROR", "SOMETHING WENT WRONG ON START")
         UniversityDatabase.getInstance(this)
         AppRepository.getInstance()
     }
