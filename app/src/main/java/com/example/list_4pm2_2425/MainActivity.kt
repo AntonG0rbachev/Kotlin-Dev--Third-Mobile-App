@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), ActivityCallbacks {
             }
         }
     }
-    var activeFragment: NamesOfFragment = NamesOfFragment.FACULTY
+    private var activeFragment: NamesOfFragment = NamesOfFragment.FACULTY
 
     private var _miAppendFaculty: MenuItem? = null
     private var _miUpdateFaculty: MenuItem? = null
